@@ -1,3 +1,5 @@
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -205,9 +207,12 @@ namespace Castle.Windsor.MsDependencyInjection
                    serviceType == typeof(IServiceProviderIsKeyedService);
         }
 
-        public bool IsKeyedService(Type serviceType, object serviceKey)
+        public bool IsKeyedService(Type? serviceType, object? serviceKey)
         {
-            ArgumentNullException.ThrowIfNull(serviceType);
+            if (serviceType == null)
+            {
+                throw new ArgumentNullException(nameof(serviceType));
+            }
             
             if (serviceKey == null)
             {

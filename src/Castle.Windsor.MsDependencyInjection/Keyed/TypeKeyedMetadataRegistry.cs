@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
@@ -74,7 +73,7 @@ internal sealed class TypeKeyedMetadataRegistry
                 }
             }
 
-            return new TypeKeyedMetadata(metadata?.ToFrozenDictionary());
+            return new TypeKeyedMetadata(metadata?.AsReadOnly());
         }
 
         static KeyedParameterInfo? InspectParameter(ParameterInfo parameter)
@@ -102,7 +101,7 @@ internal sealed class TypeKeyedMetadataRegistry
         }
     }
 
-    private sealed record TypeKeyedMetadata(FrozenDictionary<int, KeyedParameterInfo?[]>? Metadata)
+    private sealed record TypeKeyedMetadata(IReadOnlyDictionary<int, KeyedParameterInfo?[]>? Metadata)
     {
         public bool HasKeyedParameters => Metadata != null;
 
